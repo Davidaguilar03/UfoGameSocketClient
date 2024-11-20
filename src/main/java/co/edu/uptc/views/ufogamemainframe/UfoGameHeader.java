@@ -31,7 +31,7 @@ public class UfoGameHeader extends JPanel{
     }
 
     private void createSettingsBtn(){
-        RoundedButton settingsBtn = new RoundedButton("<html><div style='text-align: center;'>Menu</html>", 20);
+        RoundedButton settingsBtn = new RoundedButton(" ", 20);
         settingsBtn.setBounds(10, 10, 80, 50);
         settingsBtn.setBackground(GlobalView.BTN_BACKGROUND);
         settingsBtn.setForeground(GlobalView.BTN_FOREGROUND);
