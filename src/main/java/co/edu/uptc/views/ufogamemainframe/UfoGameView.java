@@ -5,6 +5,8 @@ import javax.swing.JFrame;
 
 import co.edu.uptc.interfaces.*;
 import co.edu.uptc.interfaces.UfoGameInterface.Presenter;
+import co.edu.uptc.views.ufogameconnectframe.UfoGameConnectView;
+
 import java.awt.CardLayout;
 import java.awt.LayoutManager;
 import java.awt.BorderLayout;
@@ -16,6 +18,7 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
     private UfoGameInterface.Presenter presenter;
     private UfoGameHeader ufoGameHeader;
     private UfoGameBody ufoGameBody;
+    private UfoGameConnectView ufoGameConnectView;
     private CardLayout bodyCardLayout; 
 
     public UfoGameView(){
@@ -23,10 +26,11 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
         this.createUfoGameHeader();
         this.createUfoGameBody();
     }
-
+    
     @Override
     public void begin() {
-        this.setVisible(true);
+        this.createUfoGameConnectView();
+        //this.setVisible(true);
     }
 
     private void initFrame(){
@@ -46,6 +50,11 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
         bodyCardLayout = new CardLayout();
         ufoGameBody = new UfoGameBody(this,bodyCardLayout);
         this.add(ufoGameBody);
+    }
+
+    private void createUfoGameConnectView(){
+        ufoGameConnectView = new UfoGameConnectView(this);
+        ufoGameConnectView.begin();
     }
 
 

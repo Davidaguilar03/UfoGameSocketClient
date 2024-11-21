@@ -1,8 +1,8 @@
 package co.edu.uptc.views.ufogameplayframe;
 
-import java.awt.BasicStroke;
+//import java.awt.BasicStroke;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+//import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -20,7 +20,7 @@ import co.edu.uptc.pojos.Ufo;
 import co.edu.uptc.utilities.AudioPlayer;
 import co.edu.uptc.utilities.ImagePanel;
 import co.edu.uptc.utilities.PropertiesService;
-import co.edu.uptc.views.GlobalView;
+//import co.edu.uptc.views.GlobalView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -156,33 +156,33 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
         this.add(playBodyPanel);
     }
 
-    private void drawLandingStrip(Graphics g) {
-        if (scaledLandingStripImage != null) {
-            g.drawImage(scaledLandingStripImage, 580, 145, this);
-        } 
-    }
+    // private void drawLandingStrip(Graphics g) {
+    //     if (scaledLandingStripImage != null) {
+    //         g.drawImage(scaledLandingStripImage, 580, 145, this);
+    //     } 
+    // }
 
-    private void drawUfos(Graphics g) {
-        for (Ufo ufo : ufos) {
-            String imagePath = (ufo == selectedUfo) ? ufoImageOn : ufoImage;
-            ImageIcon ufoIcon = new ImageIcon(imagePath);
-            Image ufoImage = ufoIcon.getImage();
-            g.drawImage(ufoImage, ufo.getPosition().x, ufo.getPosition().y, 75, 54, this);
-        }
-    }
+    // private void drawUfos(Graphics g) {
+    //     for (Ufo ufo : ufos) {
+    //         String imagePath = (ufo == selectedUfo) ? ufoImageOn : ufoImage;
+    //         ImageIcon ufoIcon = new ImageIcon(imagePath);
+    //         Image ufoImage = ufoIcon.getImage();
+    //         g.drawImage(ufoImage, ufo.getPosition().x, ufo.getPosition().y, 75, 54, this);
+    //     }
+    // }
 
-    private void drawTrajectory(Graphics g) {
-        if (!trajectoryPoints.isEmpty()) {
-            Graphics2D g2d = (Graphics2D) g;
-            g2d.setColor(GlobalView.HEADER_MENU_BACKGROUND);
-            g2d.setStroke(new BasicStroke(3));
-            for (int i = 0; i < trajectoryPoints.size() - 1; i++) {
-                Point start = trajectoryPoints.get(i);
-                Point end = trajectoryPoints.get(i + 1);
-                g2d.drawLine(start.x, start.y, end.x, end.y);
-            }
-        }
-    }
+    // private void drawTrajectory(Graphics g) {
+    //     if (!trajectoryPoints.isEmpty()) {
+    //         Graphics2D g2d = (Graphics2D) g;
+    //         g2d.setColor(GlobalView.HEADER_MENU_BACKGROUND);
+    //         g2d.setStroke(new BasicStroke(3));
+    //         for (int i = 0; i < trajectoryPoints.size() - 1; i++) {
+    //             Point start = trajectoryPoints.get(i);
+    //             Point end = trajectoryPoints.get(i + 1);
+    //             g2d.drawLine(start.x, start.y, end.x, end.y);
+    //         }
+    //     }
+    // }
 
     private void selectUfo(Point point) {
         for (Ufo ufo : ufos) {
