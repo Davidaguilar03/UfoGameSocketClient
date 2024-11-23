@@ -27,7 +27,7 @@ public class UfoGameConnectView extends JFrame {
     private void initFrame(){
         this.setUndecorated(true);
         this.setLayout((LayoutManager) new BorderLayout());
-        this.setSize(400,470);
+        this.setSize(400,400);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
     }

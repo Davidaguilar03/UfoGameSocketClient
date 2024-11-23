@@ -142,7 +142,7 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                // drawLandingStrip(g);
+                drawLandingStrip(g);
                 // drawUfos(g);
                 // if (showTrajectory) {
                 //     drawTrajectory(g);
@@ -156,11 +156,11 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
         this.add(playBodyPanel);
     }
 
-    // private void drawLandingStrip(Graphics g) {
-    //     if (scaledLandingStripImage != null) {
-    //         g.drawImage(scaledLandingStripImage, 580, 145, this);
-    //     } 
-    // }
+    private void drawLandingStrip(Graphics g) {
+        if (scaledLandingStripImage != null) {
+            g.drawImage(scaledLandingStripImage, 580, 145, this);
+        } 
+    }
 
     // private void drawUfos(Graphics g) {
     //     for (Ufo ufo : ufos) {
