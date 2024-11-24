@@ -22,7 +22,7 @@ import lombok.Setter;
 @Setter
 public class UfoSocketClient implements UfoGameInterface.Model {
     private UfoGameInterface.Presenter presenter;
-    private List<Ufo> Ufos;
+    private List<Ufo> ufos;
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
@@ -31,7 +31,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     private volatile boolean running = true;
 
     public UfoSocketClient() {
-        Ufos = new ArrayList<>();
+        ufos = new ArrayList<>();
     }
 
     @Override
@@ -80,28 +80,18 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     public void sendNumberofUfos(int numberofUfos) {
         sendMessage("NUMBER_OF_UFOS " + numberofUfos);
     }
-
+    
     @Override
     public void startGame() {
         sendMessage("START_GAME");
     }
-
-    @Override
-    public void updateUfosListOrder() {
-        sendMessage("REQUEST_UFO_LIST");
-    }
-
-    public List<Ufo> getUfos() {
-        return Ufos;
-    }
-
-
+    
     private class ServerListener implements Runnable {
         @Override
         public void run() {
             try {
                 String serverMessage;
-                while ((serverMessage = in.readLine()) != null) {
+                while (running && (serverMessage = in.readLine()) != null) {
                     System.out.println("Servidor: " + serverMessage);
                     if (serverMessage.startsWith("UPDATE_UFO_COUNT")) {
                         int size = Integer.parseInt(serverMessage.split(" ")[1]);
@@ -122,6 +112,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
                         Type listType = new TypeToken<List<Ufo>>() {}.getType();
                         List<Ufo> ufos = gson.fromJson(json, listType);
                         updateUfoList(ufos);
+                        
                     }
                 }
             } catch (IOException e) {
@@ -134,36 +125,34 @@ public class UfoSocketClient implements UfoGameInterface.Model {
 
     private void updateUfoCount(int size) {
         presenter.updateUfoCount(size);
-        System.out.println("Actualizando el conteo de UFOs a: " + size);
     }
-
+    
     private void playCrashSound() {
         presenter.playCrashSound();
-        System.out.println("Reproduciendo sonido de choque.");
     }
-
+    
     private void incrementCrashedUfoCount(int crashedUfos) {
         presenter.incrementCrashedUfoCount(crashedUfos);
-        System.out.println("Incrementando el conteo de UFOs estrellados a: " + crashedUfos);
     }
-
+    
     private void playLandingSound() {
         presenter.playLandingSound();
-        System.out.println("Reproduciendo sonido de aterrizaje.");
     }
-
+    
     private void incrementLandedUfoCount() {
         presenter.incrementLandedUfoCount();
-        System.out.println("Incrementando el conteo de UFOs aterrizados.");
     }
-
+    
     private void updateUfos() {
+        updateUfosListOrder();
         presenter.updateUFOs();
-        System.out.println("Actualizando UFOs.");
     }
-
+    
     private void updateUfoList(List<Ufo> ufos) {
-        this.Ufos = ufos;
-        System.out.println("Actualizando la lista de UFOs...");
+        this.ufos=ufos;
+    }
+    
+    public void updateUfosListOrder() {
+        sendMessage("REQUEST_UFO_LIST");;
     }
 }
