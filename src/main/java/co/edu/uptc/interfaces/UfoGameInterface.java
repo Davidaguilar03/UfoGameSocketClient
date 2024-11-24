@@ -21,6 +21,8 @@ public class UfoGameInterface {
         public void startConnection(String ip, int port, String username) throws Exception;
 
         public void stopConnection() throws Exception;
+
+        public void updateUfosListOrder();
     }
 
     public interface View {
@@ -72,5 +74,7 @@ public class UfoGameInterface {
         public void startConnection(String ip, int port, String username) throws Exception;
 
         public void stopConnection() throws Exception;
+        
+        public void updateUfosListOrder();
     }
 }

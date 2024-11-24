@@ -89,4 +89,9 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
         model.startGame();
     }
 
+    @Override
+    public void updateUfosListOrder() {
+        model.updateUfosListOrder();
+    }
+
 }

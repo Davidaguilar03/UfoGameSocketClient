@@ -20,7 +20,7 @@ public class UfoGamePlayView extends JFrame{
     
     public void begin(){
         this.setVisible(true);
-        //ufoGameView.getPresenter().startGame();
+        ufoGameView.getPresenter().startGame();
     }
 
     private void initFrame(){

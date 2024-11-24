@@ -4,8 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import co.edu.uptc.interfaces.UfoGameInterface;
 import co.edu.uptc.interfaces.UfoGameInterface.Presenter;
@@ -22,6 +27,12 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     private PrintWriter out;
     private BufferedReader in;
     private String username;
+    private static Gson gson = new Gson();
+    private volatile boolean running = true;
+
+    public UfoSocketClient() {
+        Ufos = new ArrayList<>();
+    }
 
     @Override
     public void startConnection(String ip, int port, String username) throws IOException {
@@ -30,10 +41,12 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         sendMessage("CONNECT " + username);
+        new Thread(new ServerListener()).start();
     }
 
     @Override
     public void stopConnection() throws IOException {
+        running = false;
         sendMessage("DISCONNECT " + username);
         in.close();
         out.close();
@@ -53,11 +66,6 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         this.presenter = presenter;
     }
 
-    public List<Ufo> receiveUfos() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     @Override
     public void sendSpawnRate(int spawnRate) {
         sendMessage("SPAWN_RATE " + spawnRate);
@@ -75,8 +83,87 @@ public class UfoSocketClient implements UfoGameInterface.Model {
 
     @Override
     public void startGame() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'startGame'");
+        sendMessage("START_GAME");
     }
 
+    @Override
+    public void updateUfosListOrder() {
+        sendMessage("REQUEST_UFO_LIST");
+    }
+
+    public List<Ufo> getUfos() {
+        return Ufos;
+    }
+
+
+    private class ServerListener implements Runnable {
+        @Override
+        public void run() {
+            try {
+                String serverMessage;
+                while ((serverMessage = in.readLine()) != null) {
+                    System.out.println("Servidor: " + serverMessage);
+                    if (serverMessage.startsWith("UPDATE_UFO_COUNT")) {
+                        int size = Integer.parseInt(serverMessage.split(" ")[1]);
+                        updateUfoCount(size);
+                    } else if (serverMessage.equals("PLAY_CRASH_SOUND")) {
+                        playCrashSound();
+                    } else if (serverMessage.startsWith("INCREMENT_CRASHED_UFO_COUNT")) {
+                        int crashedUfos = Integer.parseInt(serverMessage.split(" ")[1]);
+                        incrementCrashedUfoCount(crashedUfos);
+                    } else if (serverMessage.equals("PLAY_LANDING_SOUND")) {
+                        playLandingSound();
+                    } else if (serverMessage.equals("INCREMENT_LANDED_UFO_COUNT")) {
+                        incrementLandedUfoCount();
+                    } else if (serverMessage.equals("UPDATE_UFOS")) {
+                        updateUfos();
+                    } else if (serverMessage.startsWith("UFO_LIST")) {
+                        String json = serverMessage.substring("UFO_LIST ".length());
+                        Type listType = new TypeToken<List<Ufo>>() {}.getType();
+                        List<Ufo> ufos = gson.fromJson(json, listType);
+                        updateUfoList(ufos);
+                    }
+                }
+            } catch (IOException e) {
+                if (running) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private void updateUfoCount(int size) {
+        presenter.updateUfoCount(size);
+        System.out.println("Actualizando el conteo de UFOs a: " + size);
+    }
+
+    private void playCrashSound() {
+        presenter.playCrashSound();
+        System.out.println("Reproduciendo sonido de choque.");
+    }
+
+    private void incrementCrashedUfoCount(int crashedUfos) {
+        presenter.incrementCrashedUfoCount(crashedUfos);
+        System.out.println("Incrementando el conteo de UFOs estrellados a: " + crashedUfos);
+    }
+
+    private void playLandingSound() {
+        presenter.playLandingSound();
+        System.out.println("Reproduciendo sonido de aterrizaje.");
+    }
+
+    private void incrementLandedUfoCount() {
+        presenter.incrementLandedUfoCount();
+        System.out.println("Incrementando el conteo de UFOs aterrizados.");
+    }
+
+    private void updateUfos() {
+        presenter.updateUFOs();
+        System.out.println("Actualizando UFOs.");
+    }
+
+    private void updateUfoList(List<Ufo> ufos) {
+        this.Ufos = ufos;
+        System.out.println("Actualizando la lista de UFOs...");
+    }
 }
