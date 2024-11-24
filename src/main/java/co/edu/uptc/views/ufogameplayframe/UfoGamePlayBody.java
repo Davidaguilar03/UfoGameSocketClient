@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -61,7 +62,7 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
         initAudioPlayers();
         playBackgroundMusic();
     }
-
+    
     private void addMouseListeners() {
         addMouseListener(new MouseAdapter() {
             @Override
@@ -69,16 +70,17 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
                 selectUfo(e.getPoint());
                 playBodyPanel.requestFocusInWindow();
             }
-
+            
             @Override
             public void mouseReleased(MouseEvent e) {
                 if (selectedUfo != null) {
                     selectedUfo.setTrajectory(new ArrayList<>(trajectoryPoints));
                     trajectoryPoints.clear();
+                    sendTrajectoryToServer(selectedUfo);
                 }
             }
         });
-
+        
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -89,7 +91,7 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
             }
         });
     }
-
+    
     private void initAudioPlayers() {
         backgroundMusicPlayer = new AudioPlayer();
         crashSoundPlayer = new AudioPlayer();
@@ -99,19 +101,19 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
     private void playBackgroundMusic() {
         backgroundMusicPlayer.playSound(propertiesService.getKeyValue("GameSound"), true);
     }
-
+    
     public void playCrashSound() {
         crashSoundPlayer.playSound(propertiesService.getKeyValue("UfoCrashSound"), false);
     }
-
+    
     public void playLandingSound() {
         landingSoundPlayer.playSound(propertiesService.getKeyValue("UfoLandingSound"), false);
     }
-
+    
     @Override
     public void keyTyped(KeyEvent e) {
     }
-
+    
     @Override
     public void keyPressed(KeyEvent e) {
         if (selectedUfo != null) {
@@ -122,11 +124,11 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
             }
         }
     }
-
+    
     @Override
     public void keyReleased(KeyEvent e) {
     }
-
+    
     private void loadLandingStripImage() {
         try {
             landingStripImage = new ImageIcon(propertiesService.getKeyValue("UfoLanding")).getImage();
@@ -136,7 +138,7 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
             scaledLandingStripImage = null;
         }
     }
-
+    
     private void initPlayPanel() {
         playBodyPanel = new ImagePanel(propertiesService.getKeyValue("PlayBackground"), 0.85f) {
             @Override
@@ -155,13 +157,13 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
         playBodyPanel.setLayout(null);
         this.add(playBodyPanel);
     }
-
+    
     private void drawLandingStrip(Graphics g) {
         if (scaledLandingStripImage != null) {
             g.drawImage(scaledLandingStripImage, 580, 145, this);
         } 
     }
-
+    
     private void drawUfos(Graphics g) {
         for (Ufo ufo : ufos) {
             String imagePath = (ufo == selectedUfo) ? ufoImageOn : ufoImage;
@@ -170,7 +172,7 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
             g.drawImage(ufoImage, ufo.getPosition().x, ufo.getPosition().y, 75, 54, this);
         }
     }
-
+    
     private void drawTrajectory(Graphics g) {
         if (!trajectoryPoints.isEmpty()) {
             Graphics2D g2d = (Graphics2D) g;
@@ -183,10 +185,11 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
             }
         }
     }
-
+    
     private void selectUfo(Point point) {
         for (Ufo ufo : ufos) {
-            if (ufo.getBounds().contains(point)) {
+            Rectangle bounds = new Rectangle(ufo.getPosition().x, ufo.getPosition().y, Ufo.UFO_WIDTH, Ufo.UFO_HEIGHT);
+            if (bounds.contains(point)) {
                 selectedUfo = ufo;
                 trajectoryPoints.clear();
                 break;
@@ -194,17 +197,17 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
         }
         updateUFOs(); 
     }
-
+    
     public void updateUFOs() {
         this.ufos = ufoGamePlayView.getUfoGameView().getPresenter().getUfos();
         playBodyPanel.repaint();
     }
-
+    
     private void increaseSpeed(Ufo ufo) {
         ufo.setSpeed(Math.max(ufo.getSpeed() + 1, 2)); 
         updateUFOs();
     }
-
+    
     private void decreaseSpeed(Ufo ufo) {
         int newSpeed = ufo.getSpeed() - 1;
         if (newSpeed < 2) {
@@ -212,5 +215,12 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
         }
         ufo.setSpeed(newSpeed);
         updateUFOs();
+    }
+
+    private void sendTrajectoryToServer(Ufo ufo) {
+        // Implementa la lógica para enviar la nueva trayectoria del UFO al servidor
+        // Ejemplo:
+        // String trajectoryJson = gson.toJson(ufo.getTrajectory());
+        // sendMessage("UPDATE_TRAJECTORY " + ufo.getId() + " " + trajectoryJson);
     }
 }
