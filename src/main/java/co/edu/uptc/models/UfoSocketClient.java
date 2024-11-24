@@ -32,7 +32,6 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         sendMessage("CONNECT " + username);
     }
 
-    
     @Override
     public void stopConnection() throws IOException {
         sendMessage("DISCONNECT " + username);
@@ -40,7 +39,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         out.close();
         clientSocket.close();
     }
-    
+
     public void sendMessage(String msg) {
         out.println(username + ": " + msg);
     }
@@ -54,24 +53,30 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         this.presenter = presenter;
     }
 
+    public List<Ufo> receiveUfos() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     @Override
     public void sendSpawnRate(int spawnRate) {
-        // TODO Auto-generated method stub
+        sendMessage("SPAWN_RATE " + spawnRate);
     }
 
     @Override
     public void sendSpeed(int speed) {
-        // TODO Auto-generated method stub
+        sendMessage("SPEED " + speed);
     }
 
     @Override
     public void sendNumberofUfos(int numberofUfos) {
-        // TODO Auto-generated method stub
+        sendMessage("NUMBER_OF_UFOS " + numberofUfos);
     }
 
-    public List<Ufo> receiveUfos() {
+    @Override
+    public void startGame() {
         // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Unimplemented method 'startGame'");
     }
 
 }

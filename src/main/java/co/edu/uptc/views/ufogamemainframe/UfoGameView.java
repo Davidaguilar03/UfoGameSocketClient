@@ -30,7 +30,6 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
     @Override
     public void begin() {
         this.createUfoGameConnectView();
-        //this.setVisible(true);
     }
 
     private void initFrame(){

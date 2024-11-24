@@ -84,4 +84,9 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
         model.stopConnection();
     }
 
+    @Override
+    public void startGame() {
+        model.startGame();
+    }
+
 }

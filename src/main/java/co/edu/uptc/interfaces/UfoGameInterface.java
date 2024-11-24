@@ -8,6 +8,8 @@ public class UfoGameInterface {
     public interface Model {
         public List<Ufo> getUfos();
 
+        public void startGame();
+
         public void sendSpawnRate(int spawnRate);
 
         public void sendSpeed(int speed);
@@ -44,6 +46,8 @@ public class UfoGameInterface {
         public List<Ufo> getUfos();
 
         public void updateUFOs();
+
+        public void startGame();
         
         public void sendSpawnRate(int spawnRate);
 
