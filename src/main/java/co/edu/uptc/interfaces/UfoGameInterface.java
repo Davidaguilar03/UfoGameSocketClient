@@ -6,17 +6,19 @@ import co.edu.uptc.pojos.Ufo;
 public class UfoGameInterface {
 
     public interface Model {
-        public void startGame();
-
         public List<Ufo> getUfos();
 
-        public void setSpawnRate(int spawnRate);
+        public void sendSpawnRate(int spawnRate);
 
-        public void setSpeed(int speed);
+        public void sendSpeed(int speed);
 
-        public void setNumberofUfos(int numberofUfos);
+        public void sendNumberofUfos(int numberofUfos);
 
         public void setPresenter(Presenter presenter);
+
+        public void startConnection(String ip, int port, String username) throws Exception;
+
+        public void stopConnection() throws Exception;
     }
 
     public interface View {
@@ -38,17 +40,16 @@ public class UfoGameInterface {
     }
 
     public interface Presenter {
-        public void startGame();
 
         public List<Ufo> getUfos();
 
         public void updateUFOs();
         
-        public void setSpawnRate(int spawnRate);
-        
-        public void setSpeed(int speed);
-        
-        public void setNumberofUfos(int numberofUfos);
+        public void sendSpawnRate(int spawnRate);
+
+        public void sendSpeed(int speed);
+
+        public void sendNumberofUfos(int numberofUfos);
 
         public void updateUfoCount(int ufoCount);
 
@@ -63,5 +64,9 @@ public class UfoGameInterface {
         public void playCrashSound();
 
         public void playLandingSound();
+
+        public void startConnection(String ip, int port, String username) throws Exception;
+
+        public void stopConnection() throws Exception;
     }
 }

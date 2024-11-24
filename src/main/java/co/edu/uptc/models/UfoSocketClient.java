@@ -1,8 +1,11 @@
 package co.edu.uptc.models;
 
-//import java.util.Iterator;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.List;
-//import java.util.concurrent.CopyOnWriteArrayList;
 
 import co.edu.uptc.interfaces.UfoGameInterface;
 import co.edu.uptc.interfaces.UfoGameInterface.Presenter;
@@ -14,37 +17,36 @@ import lombok.Setter;
 @Setter
 public class UfoSocketClient implements UfoGameInterface.Model {
     private UfoGameInterface.Presenter presenter;
-    // private UfoRunner ufoRunner;
-    // private SpawnRunner spawnRunner;
-    // private List<Ufo> Ufos;
-    // private int spawnRate;
-    // private int speed;
-    // private int numberofUfos;
-
-    public UfoSocketClient() {
-        // this.Ufos = new CopyOnWriteArrayList<>();
-        // ufoRunner = new UfoRunner(this);
-        // spawnRunner = new SpawnRunner(this);
-    }
-
-    public synchronized void addUfo(int speed) {
-        // UfoController ufoController = new UfoController(this);
-        // Ufo newUfo = ufoController.createUfo(speed);
-        // Ufos.add(newUfo);
-    }
+    private List<Ufo> Ufos;
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private String username;
 
     @Override
-    public void startGame() {
-        // Thread moveThread = new Thread(ufoRunner);
-        // moveThread.start();
-        // Thread spawnThread = new Thread(spawnRunner);
-        // spawnThread.start();
+    public void startConnection(String ip, int port, String username) throws IOException {
+        this.username = username;
+        clientSocket = new Socket(ip, port);
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        sendMessage("CONNECT " + username);
     }
 
+    
     @Override
-    public List<Ufo> getUfos() {
-            return null;
-        //return Ufos;
+    public void stopConnection() throws IOException {
+        sendMessage("DISCONNECT " + username);
+        in.close();
+        out.close();
+        clientSocket.close();
+    }
+    
+    public void sendMessage(String msg) {
+        out.println(username + ": " + msg);
+    }
+
+    public String receiveMessage() throws IOException {
+        return in.readLine();
     }
 
     @Override
@@ -52,29 +54,24 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         this.presenter = presenter;
     }
 
-
     @Override
-    public void setSpawnRate(int spawnRate) {
-        //this.spawnRate = spawnRate;
-    }
-
-    @Override
-    public void setSpeed(int speed) {
-        //this.speed = speed;
+    public void sendSpawnRate(int spawnRate) {
+        // TODO Auto-generated method stub
     }
 
     @Override
-    public void setNumberofUfos(int numberofUfos) {
-        //this.numberofUfos = numberofUfos;
+    public void sendSpeed(int speed) {
+        // TODO Auto-generated method stub
     }
-    
-    public synchronized void moveAll() {
-        // Iterator<Ufo> iterator = Ufos.iterator();
-        // while (iterator.hasNext()) {
-        //     Ufo ufo = iterator.next();
-        //     UfoController ufoController = new UfoController(this);
-        //     ufoController.moveUfo(ufo,Ufos);
-        //     presenter.updateUfoCount(Ufos.size());
-        // }
+
+    @Override
+    public void sendNumberofUfos(int numberofUfos) {
+        // TODO Auto-generated method stub
     }
+
+    public List<Ufo> receiveUfos() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

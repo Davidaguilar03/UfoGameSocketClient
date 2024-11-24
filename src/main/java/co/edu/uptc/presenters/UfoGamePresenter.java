@@ -29,28 +29,23 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
     }
 
     @Override
-    public void startGame() {
-        model.startGame();
-    }
-
-    @Override
     public void updateUFOs() {
         view.updateUFOs();
     }
 
     @Override
-    public void setSpawnRate(int spawnRate) {
-        model.setSpawnRate(spawnRate);
+    public void sendSpawnRate(int spawnRate) {
+        model.sendSpawnRate(spawnRate);
     }
 
     @Override
-    public void setSpeed(int speed) {
-        model.setSpeed(Math.max(speed, 2)); 
+    public void sendSpeed(int speed) {
+        model.sendSpeed(Math.max(speed, 2)); 
     }
 
     @Override
-    public void setNumberofUfos(int numberofUfos) {
-        model.setNumberofUfos(numberofUfos);
+    public void sendNumberofUfos(int numberofUfos) {
+        model.sendNumberofUfos(numberofUfos);
     }
 
 
@@ -77,6 +72,16 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
     @Override
     public void playLandingSound() {
         view.playLandingSound();
+    }
+
+    @Override
+    public void startConnection(String ip, int port, String username) throws Exception {
+        model.startConnection(ip, port, username);
+    }
+
+    @Override
+    public void stopConnection() throws Exception {
+        model.stopConnection();
     }
 
 }

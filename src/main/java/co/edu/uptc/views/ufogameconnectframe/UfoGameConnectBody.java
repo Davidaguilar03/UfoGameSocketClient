@@ -5,6 +5,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -32,7 +33,7 @@ public class UfoGameConnectBody extends JPanel {
         this.createLblIp();
         this.createLblPort();
         this.createAndAddTextFields(connectPanel);
-        this.addBackButton();
+        this.addConnectButton();
         this.createLblGameTag();
     }
 
@@ -106,7 +107,11 @@ public class UfoGameConnectBody extends JPanel {
         };
     }
 
-    private void addBackButton() {
+    private void showErrorDialog(String errorMessage) {
+        JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void addConnectButton() {
         RoundedButton backButton = new RoundedButton("Conectar", 20);
         backButton.setBounds(20, 270, 360, 30);
         backButton.setBackground(GlobalView.BTN_BACKGROUND);
@@ -114,8 +119,13 @@ public class UfoGameConnectBody extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ufoGameConnectView.getUfoGameView().setVisible(true);;
-                ufoGameConnectView.dispose();
+                try {
+                    ufoGameConnectView.getUfoGameView().getPresenter().startConnection(txtIp.getText(),Integer.parseInt(txtPort.getText()),txtGameTag.getText());
+                    ufoGameConnectView.getUfoGameView().setVisible(true);;
+                    ufoGameConnectView.dispose();
+                } catch (Exception e1) {
+                    showErrorDialog("Error al conectar: " + e1.getMessage());
+                }
             }
         });
         connectPanel.add(backButton);

@@ -71,6 +71,11 @@ public class UfoGamePlayHeader extends JPanel {
         exitBtn.setForeground(GlobalView.BTN_FOREGROUND);
         exitBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                try {
+                    ufoGamePlayView.getUfoGameView().getPresenter().stopConnection();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
                 System.exit(0);
             }
         });

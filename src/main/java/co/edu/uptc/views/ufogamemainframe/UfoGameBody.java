@@ -293,27 +293,27 @@ public class UfoGameBody extends JPanel {
     private void saveUfosAmount() {
         try {
             int ufosAmount = Integer.parseInt(txtUfosAmount.getText());
-            ufoGameView.getPresenter().setNumberofUfos(ufosAmount);
+            ufoGameView.getPresenter().sendNumberofUfos(ufosAmount);
         } catch (NumberFormatException e) {
-            ufoGameView.getPresenter().setNumberofUfos(5);
+            ufoGameView.getPresenter().sendNumberofUfos(5);
         }
     }
 
     private void saveUfosSpeed() {
         try {
             int ufosSpeed = Integer.parseInt(txtUfosSpeed.getText());
-            ufoGameView.getPresenter().setSpeed(ufosSpeed);
+            ufoGameView.getPresenter().sendSpeed(ufosSpeed);
         } catch (NumberFormatException e) {
-            ufoGameView.getPresenter().setSpeed(2);
+            ufoGameView.getPresenter().sendSpeed(2);
         }
     }
 
     private void saveSpawnRate() {
         try {
             int spawnRate = Integer.parseInt(txtSpawnRate.getText());
-            ufoGameView.getPresenter().setSpawnRate(spawnRate);
+            ufoGameView.getPresenter().sendSpawnRate(spawnRate);
         } catch (NumberFormatException e) {
-            ufoGameView.getPresenter().setSpawnRate(1000);
+            ufoGameView.getPresenter().sendSpawnRate(1000);
         }
     }
 
