@@ -1,5 +1,7 @@
 package co.edu.uptc.presenters;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import co.edu.uptc.interfaces.*;
@@ -90,8 +92,23 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
     }
 
     @Override
-    public void updateUfosListOrder() {
-        model.updateUfosListOrder();
+    public void requestUfosList() {
+        model.requestUfosList();
+    }
+
+    @Override
+    public void sendTrajectoryToServer(ArrayList<Point> trajectoryPoints) {
+        model.sendTrajectoryToServer(trajectoryPoints);
+    }
+
+    @Override
+    public void sendSelectedPoint(Point point) throws Exception {
+        model.sendSelectedPoint(point);
+    }
+
+    @Override
+    public Ufo getSelectedUfo() {
+        return model.getSelectedUfo();
     }
 
 }

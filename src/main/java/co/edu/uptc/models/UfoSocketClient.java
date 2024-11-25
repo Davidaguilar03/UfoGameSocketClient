@@ -1,5 +1,6 @@
 package co.edu.uptc.models;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,6 +24,7 @@ import lombok.Setter;
 public class UfoSocketClient implements UfoGameInterface.Model {
     private UfoGameInterface.Presenter presenter;
     private List<Ufo> ufos;
+    private Ufo selectedUfo;
     private Socket clientSocket;
     private PrintWriter out;
     private BufferedReader in;
@@ -80,12 +82,27 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     public void sendNumberofUfos(int numberofUfos) {
         sendMessage("NUMBER_OF_UFOS " + numberofUfos);
     }
+
+    @Override
+    public void sendTrajectoryToServer(ArrayList<Point> trajectoryPoints) {
+        String trayectoryJson = gson.toJson(trajectoryPoints);
+        sendMessage("UFO_TRAJECTORY " + trayectoryJson);
+    }
+
+    @Override
+    public void sendSelectedPoint(Point point) {
+        sendMessage("SELECTED_POINT " + point.x + " " + point.y);
+    }
     
     @Override
     public void startGame() {
         sendMessage("START_GAME");
     }
     
+    @Override
+    public void requestUfosList() {
+        sendMessage("REQUEST_UFO_LIST");;
+    }
     private class ServerListener implements Runnable {
         @Override
         public void run() {
@@ -112,7 +129,10 @@ public class UfoSocketClient implements UfoGameInterface.Model {
                         Type listType = new TypeToken<List<Ufo>>() {}.getType();
                         List<Ufo> ufos = gson.fromJson(json, listType);
                         updateUfoList(ufos);
-                        
+                    } else if (serverMessage.startsWith("SELECTED_UFO")) {
+                        String json = serverMessage.substring("SELECTED_UFO ".length());
+                        Ufo ufo = gson.fromJson(json, Ufo.class);
+                        handleSelectedUfo(ufo);
                     }
                 }
             } catch (IOException e) {
@@ -121,6 +141,10 @@ public class UfoSocketClient implements UfoGameInterface.Model {
                 }
             }
         }
+    }
+
+    private void handleSelectedUfo(Ufo ufo) {
+        this.selectedUfo = ufo;
     }
 
     private void updateUfoCount(int size) {
@@ -144,15 +168,13 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     }
     
     private void updateUfos() {
-        updateUfosListOrder();
+        requestUfosList();
         presenter.updateUFOs();
+        presenter.updateUfoCount(ufos.size());
     }
     
     private void updateUfoList(List<Ufo> ufos) {
         this.ufos=ufos;
     }
     
-    public void updateUfosListOrder() {
-        sendMessage("REQUEST_UFO_LIST");;
-    }
 }

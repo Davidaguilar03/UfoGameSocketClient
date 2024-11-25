@@ -1,5 +1,7 @@
 package co.edu.uptc.interfaces;
 
+import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 import co.edu.uptc.pojos.Ufo;
 
@@ -7,6 +9,8 @@ public class UfoGameInterface {
 
     public interface Model {
         public List<Ufo> getUfos();
+
+        public Ufo getSelectedUfo();        
 
         public void startGame();
 
@@ -22,7 +26,11 @@ public class UfoGameInterface {
 
         public void stopConnection() throws Exception;
 
-        public void updateUfosListOrder();
+        public void requestUfosList();
+
+        public void sendTrajectoryToServer(ArrayList<Point> trajectoryPoints);
+
+        public void sendSelectedPoint(Point point) throws Exception;
     }
 
     public interface View {
@@ -46,6 +54,8 @@ public class UfoGameInterface {
     public interface Presenter {
 
         public List<Ufo> getUfos();
+
+        public Ufo getSelectedUfo(); 
 
         public void updateUFOs();
 
@@ -75,6 +85,10 @@ public class UfoGameInterface {
 
         public void stopConnection() throws Exception;
         
-        public void updateUfosListOrder();
+        public void requestUfosList();
+
+        public void sendTrajectoryToServer(ArrayList<Point> trajectoryPoints);
+
+        public void sendSelectedPoint(Point point) throws Exception;
     }
 }
