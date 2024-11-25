@@ -64,6 +64,11 @@ public class UfoGamePlayHeader extends JPanel {
         updateCounters();
     }
 
+    public void incrementConnectedPlayers() {
+        connectedPlayers++;
+        updateCounters();
+    }
+
     private void createExitBtn() {
         RoundedButton exitBtn = new RoundedButton("<html><div style='text-align: center;'>X</html>", 20);
         exitBtn.setBounds(1140, 10, 50, 50);

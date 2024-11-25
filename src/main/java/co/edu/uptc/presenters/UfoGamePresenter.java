@@ -111,4 +111,9 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
         return model.getSelectedUfo();
     }
 
+    @Override
+    public void incrementConnectedPlayers() {
+        view.incrementConnectedPlayers();
+    }
+
 }

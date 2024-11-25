@@ -93,6 +93,11 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
       ufoGameBody.getUfoGamePlayView().getUfoGamePlayBody().playLandingSound();
     }
 
+    @Override
+    public void incrementConnectedPlayers() {
+        ufoGameBody.getUfoGamePlayView().getUfoGamePlayHeader().incrementConnectedPlayers();
+    }
+
     
 
 }

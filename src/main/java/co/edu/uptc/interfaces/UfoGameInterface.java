@@ -49,6 +49,8 @@ public class UfoGameInterface {
         public void playCrashSound();
 
         public void playLandingSound();
+
+        public void incrementConnectedPlayers();
     }
 
     public interface Presenter {
@@ -90,5 +92,7 @@ public class UfoGameInterface {
         public void sendTrajectoryToServer(ArrayList<Point> trajectoryPoints);
 
         public void sendSelectedPoint(Point point) throws Exception;
+
+        public void incrementConnectedPlayers();
     }
 }

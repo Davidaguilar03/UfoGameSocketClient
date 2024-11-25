@@ -122,7 +122,10 @@ public class UfoSocketClient implements UfoGameInterface.Model {
                         playLandingSound();
                     } else if (serverMessage.equals("INCREMENT_LANDED_UFO_COUNT")) {
                         incrementLandedUfoCount();
-                    } else if (serverMessage.equals("UPDATE_UFOS")) {
+                    } else if (serverMessage.equals("INCREMENT_CONNECTED_PLAYERS")) {
+                        incrementConnectedPlayers();
+                    }
+                    else if (serverMessage.equals("UPDATE_UFOS")) {
                         updateUfos();
                     } else if (serverMessage.startsWith("UFO_LIST")) {
                         String json = serverMessage.substring("UFO_LIST ".length());
@@ -165,6 +168,10 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     
     private void incrementLandedUfoCount() {
         presenter.incrementLandedUfoCount();
+    }
+
+    private void incrementConnectedPlayers() {
+        presenter.incrementConnectedPlayers();
     }
     
     private void updateUfos() {
