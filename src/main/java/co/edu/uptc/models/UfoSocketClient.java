@@ -85,24 +85,25 @@ public class UfoSocketClient implements UfoGameInterface.Model {
 
     @Override
     public void sendTrajectoryToServer(ArrayList<Point> trajectoryPoints) {
-        String trayectoryJson = gson.toJson(trajectoryPoints);
-        sendMessage("UFO_TRAJECTORY " + trayectoryJson);
+        String trajectoryJson = gson.toJson(trajectoryPoints);
+        sendMessage("UFO_TRAJECTORY " + trajectoryJson);
     }
 
     @Override
     public void sendSelectedPoint(Point point) {
         sendMessage("SELECTED_POINT " + point.x + " " + point.y);
     }
-    
+
     @Override
     public void startGame() {
         sendMessage("START_GAME");
     }
-    
+
     @Override
     public void requestUfosList() {
-        sendMessage("REQUEST_UFO_LIST");;
+        sendMessage("REQUEST_UFO_LIST");
     }
+
     private class ServerListener implements Runnable {
         @Override
         public void run() {
@@ -124,8 +125,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
                         incrementLandedUfoCount();
                     } else if (serverMessage.equals("INCREMENT_CONNECTED_PLAYERS")) {
                         incrementConnectedPlayers();
-                    }
-                    else if (serverMessage.equals("UPDATE_UFOS")) {
+                    } else if (serverMessage.equals("UPDATE_UFOS")) {
                         updateUfos();
                     } else if (serverMessage.startsWith("UFO_LIST")) {
                         String json = serverMessage.substring("UFO_LIST ".length());
@@ -153,19 +153,19 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     private void updateUfoCount(int size) {
         presenter.updateUfoCount(size);
     }
-    
+
     private void playCrashSound() {
         presenter.playCrashSound();
     }
-    
+
     private void incrementCrashedUfoCount(int crashedUfos) {
         presenter.incrementCrashedUfoCount(crashedUfos);
     }
-    
+
     private void playLandingSound() {
         presenter.playLandingSound();
     }
-    
+
     private void incrementLandedUfoCount() {
         presenter.incrementLandedUfoCount();
     }
@@ -173,15 +173,14 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     private void incrementConnectedPlayers() {
         presenter.incrementConnectedPlayers();
     }
-    
+
     private void updateUfos() {
         requestUfosList();
         presenter.updateUFOs();
         presenter.updateUfoCount(ufos.size());
     }
-    
+
     private void updateUfoList(List<Ufo> ufos) {
-        this.ufos=ufos;
+        this.ufos = ufos;
     }
-    
 }
