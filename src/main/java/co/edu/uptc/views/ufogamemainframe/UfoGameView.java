@@ -94,10 +94,13 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
     }
 
     @Override
-    public void incrementConnectedPlayers() {
-        ufoGameBody.getUfoGamePlayView().getUfoGamePlayHeader().incrementConnectedPlayers();
+    public void incrementConnectedPlayers(int increment) {
+        ufoGameBody.getUfoGamePlayView().getUfoGamePlayHeader().incrementConnectedPlayers(increment);
     }
 
-    
+    @Override
+    public void createUfoGamePlayView(){
+        ufoGameBody.createUfoGamePlayView();
+    }
 
 }

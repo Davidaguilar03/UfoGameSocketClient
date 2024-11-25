@@ -64,8 +64,8 @@ public class UfoGamePlayHeader extends JPanel {
         updateCounters();
     }
 
-    public void incrementConnectedPlayers() {
-        connectedPlayers++;
+    public void incrementConnectedPlayers(int increment) {
+        connectedPlayers += increment;
         updateCounters();
     }
 

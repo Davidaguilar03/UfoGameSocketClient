@@ -132,15 +132,17 @@ public class UfoGameBody extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 saveSettings();
                 createUfoGamePlayView();
-                SwingUtilities.getWindowAncestor(playPanel).dispose();
             }
         });
         playPanel.add(playBtn);
     }
     
     public void createUfoGamePlayView() {
-        this.ufoGamePlayView = new UfoGamePlayView(ufoGameView);
-        this.ufoGamePlayView.begin();
+        if (this.ufoGamePlayView == null) {
+            this.ufoGamePlayView = new UfoGamePlayView(ufoGameView);
+            this.ufoGamePlayView.begin();
+            SwingUtilities.getWindowAncestor(playPanel).dispose();
+        }
     }
     
     private void createLblSpawnRate() {

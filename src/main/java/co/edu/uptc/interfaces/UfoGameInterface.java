@@ -50,7 +50,9 @@ public class UfoGameInterface {
 
         public void playLandingSound();
 
-        public void incrementConnectedPlayers();
+        public void incrementConnectedPlayers(int increment);
+
+        public void createUfoGamePlayView();
     }
 
     public interface Presenter {
@@ -93,6 +95,8 @@ public class UfoGameInterface {
 
         public void sendSelectedPoint(Point point) throws Exception;
 
-        public void incrementConnectedPlayers();
+        public void incrementConnectedPlayers(int increment);
+
+        public void createUfoGamePlayView();
     }
 }
