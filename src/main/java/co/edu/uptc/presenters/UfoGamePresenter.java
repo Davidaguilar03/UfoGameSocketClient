@@ -112,8 +112,8 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
     }
 
     @Override
-    public void incrementConnectedPlayers(int increment) {
-        view.incrementConnectedPlayers(increment);
+    public void updateConnectedPlayers(int connectedPlayers) {
+        view.updateConnectedPlayers(connectedPlayers);
     }
 
     @Override

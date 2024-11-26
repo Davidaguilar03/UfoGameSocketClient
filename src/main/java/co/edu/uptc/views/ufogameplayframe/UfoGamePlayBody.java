@@ -165,7 +165,7 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
     
     private void drawLandingStrip(Graphics g) {
         if (scaledLandingStripImage != null) {
-            g.drawImage(scaledLandingStripImage, 580, 145, this);
+            g.drawImage(scaledLandingStripImage, 640, 180, this);
         } 
     }
     

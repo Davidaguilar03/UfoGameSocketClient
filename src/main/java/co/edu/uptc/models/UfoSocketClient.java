@@ -123,9 +123,9 @@ public class UfoSocketClient implements UfoGameInterface.Model {
                         playLandingSound();
                     } else if (serverMessage.equals("INCREMENT_LANDED_UFO_COUNT")) {
                         incrementLandedUfoCount();
-                    } else if (serverMessage.equals("INCREMENT_CONNECTED_PLAYERS")) {
+                    } else if (serverMessage.contains("UPDATE_CONNECTED_PLAYERS")) {
                         int connectedPlayers = Integer.parseInt(serverMessage.split(" ")[1]);
-                        incrementConnectedPlayers(connectedPlayers);
+                        updateConnectedPlayers(connectedPlayers);
                     } else if (serverMessage.equals("UPDATE_UFOS")) {
                         updateUfos();
                     } else if (serverMessage.startsWith("UFO_LIST")) {
@@ -173,8 +173,8 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         presenter.incrementLandedUfoCount();
     }
 
-    private void incrementConnectedPlayers(int increment) {
-        presenter.incrementConnectedPlayers(increment);
+    private void updateConnectedPlayers(int increment) {
+        presenter.updateConnectedPlayers(increment);
     }
 
     private void forceStartGame(){
