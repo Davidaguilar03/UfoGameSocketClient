@@ -95,71 +95,47 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     }
 
     @Override
-    public void sendSelectedUfoDesign(String ufoDesign){
-        sendMessage("UFO_DESIGN " + ufoDesign);
+    public void sendSelectedUfoDesign(String ufoDesign) {
+        sendMessage("UFO_IMAGE " + ufoDesign);
     }
 
     @Override
-    public void requestUfoDesign(){
-        sendMessage("REQUEST_UFO_DESIGN");
+    public void requestUfoDesign() {
+        sendMessage("REQUEST_UFO_DESIGN ");
     }
 
     @Override
     public void startGame() {
-        sendMessage("START_GAME");
+        sendMessage("START_GAME ");
     }
 
     @Override
     public void requestUfosList() {
-        sendMessage("REQUEST_UFO_LIST");
+        sendMessage("REQUEST_UFO_LIST ");
     }
 
     @Override
-    public void checkClientMode(){
-        sendMessage("CHECK_CLIENT_MODE");
+    public void checkClientMode() {
+        sendMessage("CHECK_CLIENT_MODE ");
     }
 
     private class ServerListener implements Runnable {
+        private ClientMethodMap methodMap;
+
+        public ServerListener() {
+            this.methodMap = new ClientMethodMap(UfoSocketClient.this);
+        }
+
         @Override
         public void run() {
             try {
                 String serverMessage;
                 while (running && (serverMessage = in.readLine()) != null) {
                     System.out.println("Servidor: " + serverMessage);
-                    if (serverMessage.startsWith("UPDATE_UFO_COUNT")) {
-                        int size = Integer.parseInt(serverMessage.split(" ")[1]);
-                        updateUfoCount(size);
-                    } else if (serverMessage.equals("PLAY_CRASH_SOUND")) {
-                        playCrashSound();
-                    } else if (serverMessage.startsWith("INCREMENT_CRASHED_UFO_COUNT")) {
-                        int crashedUfos = Integer.parseInt(serverMessage.split(" ")[1]);
-                        incrementCrashedUfoCount(crashedUfos);
-                    } else if (serverMessage.equals("PLAY_LANDING_SOUND")) {
-                        playLandingSound();
-                    } else if (serverMessage.equals("INCREMENT_LANDED_UFO_COUNT")) {
-                        incrementLandedUfoCount();
-                    } else if (serverMessage.contains("UPDATE_CONNECTED_PLAYERS")) {
-                        int connectedPlayers = Integer.parseInt(serverMessage.split(" ")[1]);
-                        updateConnectedPlayers(connectedPlayers);
-                    } else if (serverMessage.equals("UPDATE_UFOS")) {
-                        updateUfos();
-                    } else if (serverMessage.startsWith("UFO_LIST")) {
-                        String json = serverMessage.substring("UFO_LIST ".length());
-                        Type listType = new TypeToken<List<Ufo>>() {}.getType();
-                        List<Ufo> ufos = gson.fromJson(json, listType);
-                        updateUfoList(ufos);
-                    } else if (serverMessage.startsWith("SELECTED_UFO")) {
-                        String json = serverMessage.substring("SELECTED_UFO ".length());
-                        Ufo ufo = gson.fromJson(json, Ufo.class);
-                        handleSelectedUfo(ufo);
-                    } else if (serverMessage.startsWith("FORCE_START_GAME")) {
-                        forceStartGame();
-                    } else if (serverMessage.contains("UFO_DESIGN")) {
-                        String ufoDesign = serverMessage.split(" ")[1];
-                        presenter.updateSelectedUfoDesign(ufoDesign);
-                    } else if (serverMessage.contains("SET_CLIENT_MODE")) {
-                        presenter.setClientMode();
-                    }
+                    String[] parts = serverMessage.split(" ", 2);
+                    String key = parts[0];
+                    String inputLine = parts.length > 1 ? parts[1] : "";
+                    methodMap.run(key, inputLine);
                 }
             } catch (IOException e) {
                 if (running) {
@@ -169,45 +145,60 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         }
     }
 
-    private void handleSelectedUfo(Ufo ufo) {
+    public void handleSelectedUfo(String serverMessage) {
+        Ufo ufo = gson.fromJson(serverMessage, Ufo.class);
         this.selectedUfo = ufo;
     }
 
-    private void updateUfoCount(int size) {
+    public void updateUfoCount(String serverMessage) {
+        int size = Integer.parseInt(serverMessage);
         presenter.updateUfoCount(size);
     }
 
-    private void playCrashSound() {
+    public void playCrashSound() {
         presenter.playCrashSound();
     }
 
-    private void incrementCrashedUfoCount(int crashedUfos) {
+    public void incrementCrashedUfoCount(String serverMessage) {
+        int crashedUfos = Integer.parseInt(serverMessage);
         presenter.incrementCrashedUfoCount(crashedUfos);
     }
 
-    private void playLandingSound() {
+    public void playLandingSound() {
         presenter.playLandingSound();
     }
 
-    private void incrementLandedUfoCount() {
+    public void incrementLandedUfoCount() {
         presenter.incrementLandedUfoCount();
     }
 
-    private void updateConnectedPlayers(int increment) {
-        presenter.updateConnectedPlayers(increment);
+    public void updateConnectedPlayers(String serverMessage) {
+        int connectedPlayers = Integer.parseInt(serverMessage);
+        presenter.updateConnectedPlayers(connectedPlayers);
     }
 
-    private void forceStartGame(){
+    public void forceStartGame() {
         presenter.createUfoGamePlayView();
     }
 
-    private void updateUfos() {
+    public void updateUfos() {
         requestUfosList();
         presenter.updateUFOs();
         presenter.updateUfoCount(ufos.size());
     }
 
-    private void updateUfoList(List<Ufo> ufos) {
+    public void updateUfoList(String serverMessage) {
+        Type listType = new TypeToken<List<Ufo>>() {
+        }.getType();
+        List<Ufo> ufos = gson.fromJson(serverMessage, listType);
         this.ufos = ufos;
+    }
+
+    public void updateUfoDesign(String serverMessage) {;
+        presenter.updateSelectedUfoDesign(serverMessage);
+    }
+
+    public void setClientMode() {
+        presenter.setClientMode();
     }
 }
