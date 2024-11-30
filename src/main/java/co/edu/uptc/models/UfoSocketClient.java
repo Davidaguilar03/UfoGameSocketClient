@@ -114,6 +114,11 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         sendMessage("REQUEST_UFO_LIST");
     }
 
+    @Override
+    public void checkClientMode(){
+        sendMessage("CHECK_CLIENT_MODE");
+    }
+
     private class ServerListener implements Runnable {
         @Override
         public void run() {
@@ -152,6 +157,8 @@ public class UfoSocketClient implements UfoGameInterface.Model {
                     } else if (serverMessage.contains("UFO_DESIGN")) {
                         String ufoDesign = serverMessage.split(" ")[1];
                         presenter.updateSelectedUfoDesign(ufoDesign);
+                    } else if (serverMessage.contains("SET_CLIENT_MODE")) {
+                        presenter.setClientMode();
                     }
                 }
             } catch (IOException e) {

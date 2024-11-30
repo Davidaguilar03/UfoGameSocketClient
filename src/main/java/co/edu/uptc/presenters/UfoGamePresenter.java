@@ -136,4 +136,14 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
         view.updateSelectedUfoDesign(ufoDesign);
     }
 
+    @Override
+    public void setClientMode() {
+        view.setClientMode();
+    }
+
+    @Override
+    public void checkClientMode() {
+        model.checkClientMode();
+    }
+
 }

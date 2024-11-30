@@ -13,6 +13,7 @@ import lombok.Getter;
 @Getter
 public class UfoGameHeader extends JPanel{
     private UfoGameView ufoGameView;
+    private RoundedButton settingsBtn;
     
     public UfoGameHeader(UfoGameView ufoGameView){
         this.ufoGameView=ufoGameView;
@@ -20,6 +21,10 @@ public class UfoGameHeader extends JPanel{
         this.createExitBtn();
         this.createSettingsBtn();
         this.createHowToPlayBtn();
+    }
+
+    public void setEnabledSettingsBtn(boolean mode){
+        settingsBtn.setEnabled(mode);
     }
 
     private void initPanel(){
@@ -31,7 +36,7 @@ public class UfoGameHeader extends JPanel{
     }
 
     private void createSettingsBtn(){
-        RoundedButton settingsBtn = new RoundedButton("Menu", 20);
+        settingsBtn = new RoundedButton("Menu", 20);
         settingsBtn.setBounds(10, 10, 80, 50);
         settingsBtn.setBackground(GlobalView.BTN_BACKGROUND);
         settingsBtn.setForeground(GlobalView.BTN_FOREGROUND);

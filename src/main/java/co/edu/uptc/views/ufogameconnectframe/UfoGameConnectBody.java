@@ -121,7 +121,8 @@ public class UfoGameConnectBody extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 try {
                     ufoGameConnectView.getUfoGameView().getPresenter().startConnection(txtIp.getText(),Integer.parseInt(txtPort.getText()),txtGameTag.getText());
-                    ufoGameConnectView.getUfoGameView().setVisible(true);;
+                    ufoGameConnectView.getUfoGameView().getPresenter().checkClientMode();
+                    ufoGameConnectView.getUfoGameView().setVisible(true);
                     ufoGameConnectView.dispose();
                 } catch (Exception e1) {
                     showErrorDialog("Error al conectar: " + e1.getMessage());

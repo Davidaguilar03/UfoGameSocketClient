@@ -108,4 +108,11 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
     public void updateSelectedUfoDesign(String ufoDesign){
         this.selectedUfoDesign = ufoDesign;
     }
+
+    @Override
+    public void setClientMode(){
+        ufoGameHeader.setEnabledSettingsBtn(false);
+        ufoGameBody.setEnabledPlayBtn(false);
+        ufoGameBody.setTextPlayBtn("<html><div style='text-align: center;'>Esperando al Administrador</html>");
+    }
 }

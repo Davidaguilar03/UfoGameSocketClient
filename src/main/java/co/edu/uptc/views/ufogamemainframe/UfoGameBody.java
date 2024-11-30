@@ -45,6 +45,7 @@ public class UfoGameBody extends JPanel {
     private String selectedUfoImage;
     private Map<JLabel, String> imageLabelMap = new HashMap<>();
     private boolean showTrajectory;
+    private RoundedButton playBtn;
 
     public UfoGameBody(UfoGameView ufoGameView, CardLayout cardLayout) {
         propertiesService = new PropertiesService();
@@ -122,10 +123,19 @@ public class UfoGameBody extends JPanel {
         });
         howToPlayPanel.add(backButton);
     }
+
+    public void setEnabledPlayBtn(boolean mode) {
+        playBtn.setEnabled(mode);
+    }
+
+    public void setTextPlayBtn(String text) {
+        playBtn.setText(text);
+    }
+
     
     private void createPlayBtn() {
-        RoundedButton playBtn = new RoundedButton("<html><div style='text-align: center;'>Jugar</html>", 20);
-        playBtn.setBounds(200, 400, 100, 50);
+        playBtn = new RoundedButton("<html><div style='text-align: center;'>Jugar</html>", 20);
+        playBtn.setBounds(175, 400, 150, 50);
         playBtn.setBackground(GlobalView.BTN_BACKGROUND);
         playBtn.setForeground(GlobalView.BTN_FOREGROUND);
         playBtn.addActionListener(new ActionListener() {

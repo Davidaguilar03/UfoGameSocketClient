@@ -35,6 +35,8 @@ public class UfoGameInterface {
         public void sendSelectedUfoDesign(String ufoDesign);
 
         public void requestUfoDesign();
+
+        public void checkClientMode();
     }
 
     public interface View {
@@ -59,6 +61,8 @@ public class UfoGameInterface {
         public void createUfoGamePlayView();
 
         public void updateSelectedUfoDesign(String ufoDesign);
+
+        public void setClientMode();
     }
 
     public interface Presenter {
@@ -110,5 +114,9 @@ public class UfoGameInterface {
         public void requestUfoDesign();
 
         public void updateSelectedUfoDesign(String ufoDesign);
+
+        public void setClientMode();
+
+        public void checkClientMode();
     }
 }
