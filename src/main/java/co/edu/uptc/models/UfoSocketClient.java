@@ -95,6 +95,16 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     }
 
     @Override
+    public void sendSelectedUfoDesign(String ufoDesign){
+        sendMessage("UFO_DESIGN " + ufoDesign);
+    }
+
+    @Override
+    public void requestUfoDesign(){
+        sendMessage("REQUEST_UFO_DESIGN");
+    }
+
+    @Override
     public void startGame() {
         sendMessage("START_GAME");
     }
@@ -139,6 +149,9 @@ public class UfoSocketClient implements UfoGameInterface.Model {
                         handleSelectedUfo(ufo);
                     } else if (serverMessage.startsWith("FORCE_START_GAME")) {
                         forceStartGame();
+                    } else if (serverMessage.contains("UFO_DESIGN")) {
+                        String ufoDesign = serverMessage.split(" ")[1];
+                        presenter.updateSelectedUfoDesign(ufoDesign);
                     }
                 }
             } catch (IOException e) {

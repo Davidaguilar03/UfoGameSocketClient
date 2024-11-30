@@ -31,6 +31,10 @@ public class UfoGameInterface {
         public void sendTrajectoryToServer(ArrayList<Point> trajectoryPoints);
 
         public void sendSelectedPoint(Point point) throws Exception;
+
+        public void sendSelectedUfoDesign(String ufoDesign);
+
+        public void requestUfoDesign();
     }
 
     public interface View {
@@ -53,6 +57,8 @@ public class UfoGameInterface {
         public void updateConnectedPlayers(int connectedPlayers);
 
         public void createUfoGamePlayView();
+
+        public void updateSelectedUfoDesign(String ufoDesign);
     }
 
     public interface Presenter {
@@ -98,5 +104,11 @@ public class UfoGameInterface {
         public void updateConnectedPlayers(int connectedPlayers);
 
         public void createUfoGamePlayView();
+
+        public void sendSelectedUfoDesign(String ufoDesign);
+
+        public void requestUfoDesign();
+
+        public void updateSelectedUfoDesign(String ufoDesign);
     }
 }

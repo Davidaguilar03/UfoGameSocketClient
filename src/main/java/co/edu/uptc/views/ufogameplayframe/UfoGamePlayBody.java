@@ -46,7 +46,7 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
         this.ufoGamePlayView = ufoGamePlayView;
         this.trajectoryPoints = new ArrayList<>();
         this.ufos = new ArrayList<>();
-        this.ufoImage = ufoGamePlayView.getUfoGameView().getUfoGameBody().getSelectedUfoImage();
+        this.ufoImage = ufoGamePlayView.getUfoGameView().getSelectedUfoDesign();
         this.ufoImageOn = ufoImage.replace("-OFF", "-ON");
         this.showTrajectory = ufoGamePlayView.getUfoGameView().getUfoGameBody().isShowTrajectory();
         this.setLayout(null);

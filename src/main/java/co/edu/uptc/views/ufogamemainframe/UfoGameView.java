@@ -20,6 +20,7 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
     private UfoGameBody ufoGameBody;
     private UfoGameConnectView ufoGameConnectView;
     private CardLayout bodyCardLayout; 
+    private String selectedUfoDesign;
 
     public UfoGameView(){
         this.initFrame();
@@ -103,4 +104,8 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
         ufoGameBody.createUfoGamePlayView();
     }
 
+    @Override
+    public void updateSelectedUfoDesign(String ufoDesign){
+        this.selectedUfoDesign = ufoDesign;
+    }
 }

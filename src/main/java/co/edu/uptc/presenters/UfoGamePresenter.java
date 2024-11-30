@@ -121,4 +121,19 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
         view.createUfoGamePlayView();
     }
 
+    @Override
+    public void sendSelectedUfoDesign(String ufoDesign) {
+        model.sendSelectedUfoDesign(ufoDesign);
+    }
+
+    @Override
+    public void requestUfoDesign() {
+        model.requestUfoDesign();
+    }
+
+    @Override
+    public void updateSelectedUfoDesign(String ufoDesign) {
+        view.updateSelectedUfoDesign(ufoDesign);
+    }
+
 }
