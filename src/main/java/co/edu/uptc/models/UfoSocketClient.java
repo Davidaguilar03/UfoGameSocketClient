@@ -189,7 +189,6 @@ public class UfoSocketClient implements UfoGameInterface.Model {
             try {
                 String serverMessage;
                 while (running && (serverMessage = in.readLine()) != null) {
-                    System.out.println("Servidor: " + serverMessage);
                     String[] parts = serverMessage.split(" ", 2);
                     String key = parts[0];
                     String inputLine = parts.length > 1 ? parts[1] : "";
