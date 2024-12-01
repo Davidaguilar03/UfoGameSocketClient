@@ -38,15 +38,17 @@ public class UfoGamePlayHeader extends JPanel {
     }
 
     private void createPointsCounter() {
-        pointsCounter = new JLabel("OVNIs en Movimiento: 0 | OVNIs Estrellados: 0 | OVNIs Aterrizados: 0 | Jugadores Conectados: 0");
+        pointsCounter = new JLabel(
+                "OVNIs en Movimiento: 0 | OVNIs Estrellados: 0 | OVNIs Aterrizados: 0 | Jugadores Conectados: 0");
         pointsCounter.setFont(new Font("Arial", Font.PLAIN, 20));
-        pointsCounter.setBounds(20, 10, 1000, 50); 
+        pointsCounter.setBounds(20, 10, 1000, 50);
         pointsCounter.setForeground(GlobalView.SECUNDARY_BTN_TEXT_BACKGROUND);
         this.add(pointsCounter);
     }
 
     public void updateCounters() {
-        pointsCounter.setText("OVNIs en Movimiento: " + ufoCount + " | OVNIs Estrellados: " + crashedUfoCount + " | OVNIs Aterrizados: " + landedUfoCount + " | Jugadores Conectados: " + connectedPlayers);
+        pointsCounter.setText("OVNIs en Movimiento: " + ufoCount + " | OVNIs Estrellados: " + crashedUfoCount
+                + " | OVNIs Aterrizados: " + landedUfoCount + " | Jugadores Conectados: " + connectedPlayers);
     }
 
     public void updateUfoCount(int ufoCount) {
@@ -59,7 +61,7 @@ public class UfoGamePlayHeader extends JPanel {
         updateCounters();
     }
 
-    public void incrementLandedUfoCount() { 
+    public void incrementLandedUfoCount() {
         landedUfoCount++;
         updateCounters();
     }
@@ -71,19 +73,31 @@ public class UfoGamePlayHeader extends JPanel {
 
     private void createExitBtn() {
         RoundedButton exitBtn = new RoundedButton("<html><div style='text-align: center;'>X</html>", 20);
+        configureExitBtn(exitBtn);
+        addExitBtnActionListener(exitBtn);
+        this.add(exitBtn);
+    }
+
+    private void configureExitBtn(RoundedButton exitBtn) {
         exitBtn.setBounds(1140, 10, 50, 50);
         exitBtn.setBackground(GlobalView.BTN_BACKGROUND);
         exitBtn.setForeground(GlobalView.BTN_FOREGROUND);
+    }
+
+    private void addExitBtnActionListener(RoundedButton exitBtn) {
         exitBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                try {
-                    ufoGamePlayView.getUfoGameView().getPresenter().stopConnection();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                System.exit(0);
+                handleExitAction();
             }
         });
-        this.add(exitBtn);
+    }
+
+    private void handleExitAction() {
+        try {
+            ufoGamePlayView.getUfoGameView().getPresenter().stopConnection();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        System.exit(0);
     }
 }

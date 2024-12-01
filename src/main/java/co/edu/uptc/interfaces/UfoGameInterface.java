@@ -10,7 +10,7 @@ public class UfoGameInterface {
     public interface Model {
         public List<Ufo> getUfos();
 
-        public Ufo getSelectedUfo();        
+        public Ufo getSelectedUfo();
 
         public void startGame();
 
@@ -69,12 +69,12 @@ public class UfoGameInterface {
 
         public List<Ufo> getUfos();
 
-        public Ufo getSelectedUfo(); 
+        public Ufo getSelectedUfo();
 
         public void updateUFOs();
 
         public void startGame();
-        
+
         public void sendSpawnRate(int spawnRate);
 
         public void sendSpeed(int speed);
@@ -84,7 +84,7 @@ public class UfoGameInterface {
         public void updateUfoCount(int ufoCount);
 
         public void incrementCrashedUfoCount(int increment);
-        
+
         public void incrementLandedUfoCount();
 
         public void setView(View view);
@@ -98,7 +98,7 @@ public class UfoGameInterface {
         public void startConnection(String ip, int port, String username) throws Exception;
 
         public void stopConnection() throws Exception;
-        
+
         public void requestUfosList();
 
         public void sendTrajectoryToServer(ArrayList<Point> trajectoryPoints);

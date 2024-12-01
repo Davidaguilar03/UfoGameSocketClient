@@ -119,32 +119,6 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         sendMessage("CHECK_CLIENT_MODE ");
     }
 
-    private class ServerListener implements Runnable {
-        private ClientMethodMap methodMap;
-
-        public ServerListener() {
-            this.methodMap = new ClientMethodMap(UfoSocketClient.this);
-        }
-
-        @Override
-        public void run() {
-            try {
-                String serverMessage;
-                while (running && (serverMessage = in.readLine()) != null) {
-                    System.out.println("Servidor: " + serverMessage);
-                    String[] parts = serverMessage.split(" ", 2);
-                    String key = parts[0];
-                    String inputLine = parts.length > 1 ? parts[1] : "";
-                    methodMap.run(key, inputLine);
-                }
-            } catch (IOException e) {
-                if (running) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     public void handleSelectedUfo(String serverMessage) {
         Ufo ufo = gson.fromJson(serverMessage, Ufo.class);
         this.selectedUfo = ufo;
@@ -194,11 +168,38 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         this.ufos = ufos;
     }
 
-    public void updateUfoDesign(String serverMessage) {;
+    public void updateUfoDesign(String serverMessage) {
+        ;
         presenter.updateSelectedUfoDesign(serverMessage);
     }
 
     public void setClientMode() {
         presenter.setClientMode();
+    }
+
+    private class ServerListener implements Runnable {
+        private ClientMethodMap methodMap;
+
+        public ServerListener() {
+            this.methodMap = new ClientMethodMap(UfoSocketClient.this);
+        }
+
+        @Override
+        public void run() {
+            try {
+                String serverMessage;
+                while (running && (serverMessage = in.readLine()) != null) {
+                    System.out.println("Servidor: " + serverMessage);
+                    String[] parts = serverMessage.split(" ", 2);
+                    String key = parts[0];
+                    String inputLine = parts.length > 1 ? parts[1] : "";
+                    methodMap.run(key, inputLine);
+                }
+            } catch (IOException e) {
+                if (running) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

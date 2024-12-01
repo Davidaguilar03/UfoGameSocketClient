@@ -1,6 +1,5 @@
 package co.edu.uptc.views.ufogamemainframe;
 
-
 import javax.swing.JFrame;
 
 import co.edu.uptc.interfaces.*;
@@ -19,44 +18,43 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
     private UfoGameHeader ufoGameHeader;
     private UfoGameBody ufoGameBody;
     private UfoGameConnectView ufoGameConnectView;
-    private CardLayout bodyCardLayout; 
+    private CardLayout bodyCardLayout;
     private String selectedUfoDesign;
 
-    public UfoGameView(){
+    public UfoGameView() {
         this.initFrame();
         this.createUfoGameHeader();
         this.createUfoGameBody();
     }
-    
+
     @Override
     public void begin() {
         this.createUfoGameConnectView();
     }
 
-    private void initFrame(){
+    private void initFrame() {
         this.setUndecorated(true);
         this.setLayout((LayoutManager) new BorderLayout());
-        this.setSize(500,550);
+        this.setSize(500, 550);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
     }
 
-    private void createUfoGameHeader(){
+    private void createUfoGameHeader() {
         ufoGameHeader = new UfoGameHeader(this);
-        this.add(ufoGameHeader,BorderLayout.NORTH);
+        this.add(ufoGameHeader, BorderLayout.NORTH);
     }
 
-    private void createUfoGameBody(){
+    private void createUfoGameBody() {
         bodyCardLayout = new CardLayout();
-        ufoGameBody = new UfoGameBody(this,bodyCardLayout);
+        ufoGameBody = new UfoGameBody(this, bodyCardLayout);
         this.add(ufoGameBody);
     }
 
-    private void createUfoGameConnectView(){
+    private void createUfoGameConnectView() {
         ufoGameConnectView = new UfoGameConnectView(this);
         ufoGameConnectView.begin();
     }
-
 
     @Override
     public void setPresenter(Presenter presenter) {
@@ -68,7 +66,6 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
         ufoGameBody.getUfoGamePlayView().updateUFOs();
     }
 
-
     @Override
     public void incrementCrashedUfoCount(int increment) {
         ufoGameBody.getUfoGamePlayView().getUfoGamePlayHeader().incrementCrashedUfoCount(increment);
@@ -76,7 +73,7 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
 
     @Override
     public void updateUfoCount(int ufoCount) {
-       ufoGameBody.getUfoGamePlayView().getUfoGamePlayHeader().updateUfoCount(ufoCount);
+        ufoGameBody.getUfoGamePlayView().getUfoGamePlayHeader().updateUfoCount(ufoCount);
     }
 
     @Override
@@ -86,12 +83,12 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
 
     @Override
     public void playCrashSound() {
-       ufoGameBody.getUfoGamePlayView().getUfoGamePlayBody().playCrashSound();
+        ufoGameBody.getUfoGamePlayView().getUfoGamePlayBody().playCrashSound();
     }
 
     @Override
     public void playLandingSound() {
-      ufoGameBody.getUfoGamePlayView().getUfoGamePlayBody().playLandingSound();
+        ufoGameBody.getUfoGamePlayView().getUfoGamePlayBody().playLandingSound();
     }
 
     @Override
@@ -100,17 +97,17 @@ public class UfoGameView extends JFrame implements UfoGameInterface.View {
     }
 
     @Override
-    public void createUfoGamePlayView(){
+    public void createUfoGamePlayView() {
         ufoGameBody.createUfoGamePlayView();
     }
 
     @Override
-    public void updateSelectedUfoDesign(String ufoDesign){
+    public void updateSelectedUfoDesign(String ufoDesign) {
         this.selectedUfoDesign = ufoDesign;
     }
 
     @Override
-    public void setClientMode(){
+    public void setClientMode() {
         ufoGameHeader.setEnabledSettingsBtn(false);
         ufoGameBody.setEnabledPlayBtn(false);
         ufoGameBody.setTextPlayBtn("<html><div style='text-align: center;'>Esperando al Administrador</html>");

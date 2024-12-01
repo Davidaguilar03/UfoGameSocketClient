@@ -19,5 +19,4 @@ public class PropertiesService {
         }
         return value;
     }
-
 }

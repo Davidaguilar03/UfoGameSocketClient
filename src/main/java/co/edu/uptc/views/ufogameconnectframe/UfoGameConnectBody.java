@@ -91,20 +91,28 @@ public class UfoGameConnectBody extends JPanel {
         return new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (textField.getText().equals(placeholder)) {
-                    textField.setText("");
-                    textField.setForeground(GlobalView.TEXT_COLOR);
-                }
+                handleFocusGained(e, textField, placeholder);
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                if (textField.getText().isEmpty()) {
-                    textField.setForeground(GlobalView.PLACEHOLDER_TEXT_COLOR);
-                    textField.setText(placeholder);
-                }
+                handleFocusLost(e, textField, placeholder);
             }
         };
+    }
+
+    private void handleFocusGained(FocusEvent e, JTextField textField, String placeholder) {
+        if (textField.getText().equals(placeholder)) {
+            textField.setText("");
+            textField.setForeground(GlobalView.TEXT_COLOR);
+        }
+    }
+
+    private void handleFocusLost(FocusEvent e, JTextField textField, String placeholder) {
+        if (textField.getText().isEmpty()) {
+            textField.setForeground(GlobalView.PLACEHOLDER_TEXT_COLOR);
+            textField.setText(placeholder);
+        }
     }
 
     private void showErrorDialog(String errorMessage) {
@@ -112,23 +120,38 @@ public class UfoGameConnectBody extends JPanel {
     }
 
     private void addConnectButton() {
-        RoundedButton backButton = new RoundedButton("Conectar", 20);
-        backButton.setBounds(20, 270, 360, 30);
-        backButton.setBackground(GlobalView.BTN_BACKGROUND);
-        backButton.setForeground(GlobalView.BTN_FOREGROUND);
-        backButton.addActionListener(new ActionListener() {
+        RoundedButton connectButton = new RoundedButton("Conectar", 20);
+        configureConnectButton(connectButton);
+        addConnectButtonActionListener(connectButton);
+        connectPanel.add(connectButton);
+    }
+
+    private void configureConnectButton(RoundedButton connectButton) {
+        connectButton.setBounds(20, 270, 360, 30);
+        connectButton.setBackground(GlobalView.BTN_BACKGROUND);
+        connectButton.setForeground(GlobalView.BTN_FOREGROUND);
+    }
+
+    private void addConnectButtonActionListener(RoundedButton connectButton) {
+        connectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    ufoGameConnectView.getUfoGameView().getPresenter().startConnection(txtIp.getText(),Integer.parseInt(txtPort.getText()),txtGameTag.getText());
-                    ufoGameConnectView.getUfoGameView().getPresenter().checkClientMode();
-                    ufoGameConnectView.getUfoGameView().setVisible(true);
-                    ufoGameConnectView.dispose();
-                } catch (Exception e1) {
-                    showErrorDialog("Error al conectar: " + e1.getMessage());
-                }
+                handleConnectButtonAction();
             }
         });
-        connectPanel.add(backButton);
+    }
+
+    private void handleConnectButtonAction() {
+        try {
+            ufoGameConnectView.getUfoGameView().getPresenter().startConnection(
+                    txtIp.getText(),
+                    Integer.parseInt(txtPort.getText()),
+                    txtGameTag.getText());
+            ufoGameConnectView.getUfoGameView().getPresenter().checkClientMode();
+            ufoGameConnectView.getUfoGameView().setVisible(true);
+            ufoGameConnectView.dispose();
+        } catch (Exception e1) {
+            showErrorDialog("Error al conectar: " + e1.getMessage());
+        }
     }
 }

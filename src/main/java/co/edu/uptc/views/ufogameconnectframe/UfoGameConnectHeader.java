@@ -35,18 +35,18 @@ public class UfoGameConnectHeader extends JPanel {
     private void createTitleJLabel() {
         titleJLabel = new JLabel("BIENVENIDO A GALACTIC ENIGNMA");
         titleJLabel.setFont(new Font("Arial", Font.PLAIN, 17));
-        titleJLabel.setBounds(20, 10, 300, 50); 
+        titleJLabel.setBounds(20, 10, 300, 50);
         titleJLabel.setForeground(GlobalView.SECUNDARY_BTN_TEXT_BACKGROUND);
         this.add(titleJLabel);
     }
-    
-    private void createExitBtn(){
+
+    private void createExitBtn() {
         RoundedButton exitBtn = new RoundedButton("<html><div style='text-align: center;'>X</html>", 20);
         exitBtn.setBounds(340, 10, 50, 50);
         exitBtn.setBackground(GlobalView.BTN_BACKGROUND);
         exitBtn.setForeground(GlobalView.BTN_FOREGROUND);
         exitBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
