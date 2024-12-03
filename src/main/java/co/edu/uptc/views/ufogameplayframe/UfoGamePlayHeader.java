@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.BoxLayout;
 
 import co.edu.uptc.utilities.RoundedButton;
 import co.edu.uptc.views.GlobalView;
@@ -21,34 +22,62 @@ public class UfoGamePlayHeader extends JPanel {
     private int crashedUfoCount;
     private int landedUfoCount;
     private int connectedPlayers;
+    private JPanel playersUsernamePanel;
 
     public UfoGamePlayHeader(UfoGamePlayView ufoGamePlayView) {
         this.ufoGamePlayView = ufoGamePlayView;
         initPanel();
         createPointsCounter();
         createExitBtn();
+        createPlayersUsernameList();
     }
-
+    
     private void initPanel() {
         this.setBackground(GlobalView.BODY_PLAY_BACKGROUND);
         this.setForeground(GlobalView.BODY_PLAY_FOREGROUND);
-        this.setPreferredSize(new Dimension(0, 70));
+        this.setPreferredSize(new Dimension(0, 120));
         this.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, GlobalView.BORDER_COLOR));
         this.setLayout(null);
     }
-
+    
     private void createPointsCounter() {
         pointsCounter = new JLabel(
-                "OVNIs en Movimiento: 0 | OVNIs Estrellados: 0 | OVNIs Aterrizados: 0 | Jugadores Conectados: 0");
-        pointsCounter.setFont(new Font("Arial", Font.PLAIN, 20));
-        pointsCounter.setBounds(20, 10, 1000, 50);
-        pointsCounter.setForeground(GlobalView.SECUNDARY_BTN_TEXT_BACKGROUND);
-        this.add(pointsCounter);
-    }
-
-    public void updateCounters() {
-        pointsCounter.setText("OVNIs en Movimiento: " + ufoCount + " | OVNIs Estrellados: " + crashedUfoCount
-                + " | OVNIs Aterrizados: " + landedUfoCount + " | Jugadores Conectados: " + connectedPlayers);
+            "OVNIs en Movimiento: 0 | OVNIs Estrellados: 0 | OVNIs Aterrizados: 0 | Jugadores Conectados: 0");
+            pointsCounter.setFont(new Font("Arial", Font.PLAIN, 24));
+            pointsCounter.setBounds(20, 10, 1200, 50);
+            pointsCounter.setForeground(GlobalView.SECUNDARY_BTN_TEXT_BACKGROUND);
+            this.add(pointsCounter);
+        }
+        
+        public void updateCounters() {
+            pointsCounter.setText("OVNIs en Movimiento: " + ufoCount + " | OVNIs Estrellados: " + crashedUfoCount
+            + " | OVNIs Aterrizados: " + landedUfoCount + " | Jugadores Conectados: " + connectedPlayers);
+        }
+        
+        public void createPlayersUsernameList() {
+            playersUsernamePanel = new JPanel();
+            playersUsernamePanel.setLayout(new BoxLayout(playersUsernamePanel, BoxLayout.X_AXIS));
+            playersUsernamePanel.setBounds(20, 60, 1040, 40); 
+            playersUsernamePanel.setBackground(GlobalView.HEADER_MENU_BACKGROUND);
+            playersUsernamePanel.setForeground(GlobalView.BODY_MENU_BACKGROUND);
+            this.add(playersUsernamePanel);
+            updatePlayersList();
+        }
+        
+        public void addPlayerUsername(String username) {
+            JLabel playerLabel = new JLabel("-"+username+"");
+            playerLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+            playerLabel.setForeground(GlobalView.BODY_MENU_BACKGROUND);
+            playersUsernamePanel.add(playerLabel);
+            playersUsernamePanel.revalidate();
+            playersUsernamePanel.repaint();
+        }
+        
+        public void updatePlayersList() {
+            playersUsernamePanel.removeAll();
+            for (String username : ufoGamePlayView.getUfoGameView().getPresenter().getUsersList()) {
+                addPlayerUsername(username);
+        }
     }
 
     public void updateUfoCount(int ufoCount) {

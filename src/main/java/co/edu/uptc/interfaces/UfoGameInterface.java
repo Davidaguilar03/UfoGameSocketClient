@@ -37,6 +37,10 @@ public class UfoGameInterface {
         public void requestUfoDesign();
 
         public void checkClientMode();
+
+        public void requestUsersList();
+
+        public List<String> getUsersList();
     }
 
     public interface View {
@@ -63,6 +67,8 @@ public class UfoGameInterface {
         public void updateSelectedUfoDesign(String ufoDesign);
 
         public void setClientMode();
+
+        public void updatePlayersList();
     }
 
     public interface Presenter {
@@ -118,5 +124,11 @@ public class UfoGameInterface {
         public void setClientMode();
 
         public void checkClientMode();
+
+        public void updatePlayersList();
+
+        public void requestUsersList();
+
+        public List<String> getUsersList();
     }
 }

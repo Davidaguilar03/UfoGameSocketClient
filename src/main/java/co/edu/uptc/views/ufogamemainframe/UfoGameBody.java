@@ -307,12 +307,17 @@ public class UfoGameBody extends JPanel {
         saveUfosAmount();
         saveUfosSpeed();
         saveSpawnRate();
+        saveUserList();
         showTrajectory = trayectoryCheckbox.isSelected();
     }
 
     private void saveSelectedUfoDesign() {
         ufoGameView.getPresenter().sendSelectedUfoDesign(selectedUfoImage);
         ufoGameView.getPresenter().requestUfoDesign();
+    }
+
+    private void saveUserList(){
+        ufoGameView.getPresenter().requestUsersList();
     }
 
     private void saveUfosAmount() {

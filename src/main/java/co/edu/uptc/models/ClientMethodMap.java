@@ -27,6 +27,8 @@ public class ClientMethodMap {
         map.put("FORCE_START_GAME", inputLine -> client.forceStartGame());
         map.put("UFO_IMAGE", inputLine -> client.updateUfoDesign(inputLine));
         map.put("SET_CLIENT_MODE", inputLine -> client.setClientMode());
+        map.put("USERNAME_LIST", inputLine -> client.handleUsersList(inputLine));
+        map.put("UPDATE_PLAYERS_LIST", inputLine -> client.updateUsernameList());
     }
 
     public void run(String key, String inputLine) {

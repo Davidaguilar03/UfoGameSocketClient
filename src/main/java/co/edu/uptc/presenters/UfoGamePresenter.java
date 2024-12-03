@@ -146,4 +146,19 @@ public class UfoGamePresenter implements UfoGameInterface.Presenter {
         model.checkClientMode();
     }
 
+    @Override
+    public void requestUsersList() {
+        model.requestUsersList();
+    }
+
+    @Override
+    public List<String> getUsersList() {
+        return model.getUsersList();
+    }
+
+    @Override
+    public void updatePlayersList() {
+        view.updatePlayersList();
+    }
+
 }

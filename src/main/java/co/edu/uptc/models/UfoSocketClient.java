@@ -29,6 +29,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     private PrintWriter out;
     private BufferedReader in;
     private String username;
+    private List<String> usersList;
     private static Gson gson = new Gson();
     private volatile boolean running = true;
 
@@ -44,6 +45,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         sendMessage("CONNECT " + username);
         new Thread(new ServerListener()).start();
+        presenter.updatePlayersList();
     }
 
     @Override
@@ -56,7 +58,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     }
 
     public void sendMessage(String msg) {
-        out.println(username + ": " + msg);
+        out.println(msg);
     }
 
     public String receiveMessage() throws IOException {
@@ -119,9 +121,22 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         sendMessage("CHECK_CLIENT_MODE ");
     }
 
+    @Override
+    public void requestUsersList() {
+        sendMessage("REQUEST_USERS_LIST ");
+    }
+
     public void handleSelectedUfo(String serverMessage) {
         Ufo ufo = gson.fromJson(serverMessage, Ufo.class);
         this.selectedUfo = ufo;
+    }
+
+    public void handleUsersList(String serverMessage) {
+        Type listType = new TypeToken<List<String>>() {
+        }.getType();
+        List<String> usersList = gson.fromJson(serverMessage, listType);
+        this.usersList = usersList;
+        System.out.println(usersList);
     }
 
     public void updateUfoCount(String serverMessage) {
@@ -149,6 +164,10 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     public void updateConnectedPlayers(String serverMessage) {
         int connectedPlayers = Integer.parseInt(serverMessage);
         presenter.updateConnectedPlayers(connectedPlayers);
+    }
+
+    public void updateUsernameList(){
+        presenter.updatePlayersList();;
     }
 
     public void forceStartGame() {
