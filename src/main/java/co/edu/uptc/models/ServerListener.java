@@ -17,17 +17,45 @@ public class ServerListener implements Runnable {
     @Override
     public void run() {
         try {
-            String serverMessage;
-            while (running && (serverMessage = in.readLine()) != null) {
-                String[] parts = serverMessage.split(" ", 2);
-                String key = parts[0];
-                String inputLine = parts.length > 1 ? parts[1] : "";
-                methodMap.run(key, inputLine);
+            processServerMessages();
+        } catch (IOException e) {
+            handleIOException(e);
+        } finally {
+            closeBufferedReader();
+        }
+    }
+
+    private void processServerMessages() throws IOException {
+        String serverMessage;
+        while (running && (serverMessage = in.readLine()) != null) {
+            processServerMessage(serverMessage);
+        }
+    }
+
+    private void processServerMessage(String serverMessage) {
+        String[] parts = serverMessage.split(" ", 2);
+        String key = parts[0];
+        String inputLine = parts.length > 1 ? parts[1] : "";
+        methodMap.run(key, inputLine);
+    }
+
+    private void handleIOException(IOException e) {
+        if (running) {
+            e.printStackTrace();
+        }
+    }
+
+    private void closeBufferedReader() {
+        try {
+            if (in != null) {
+                in.close();
             }
         } catch (IOException e) {
-            if (running) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
         }
+    }
+
+    public void stop() {
+        running = false;
     }
 }

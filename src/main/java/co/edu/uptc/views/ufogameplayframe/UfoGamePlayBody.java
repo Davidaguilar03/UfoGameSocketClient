@@ -41,6 +41,11 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
     private AudioPlayer crashSoundPlayer;
     private AudioPlayer landingSoundPlayer;
 
+    private static final int LANDING_STRIP_X_MIN = 580;
+    private static final int LANDING_STRIP_X_MAX = 660;
+    private static final int LANDING_STRIP_Y_MIN = 145;
+    private static final int LANDING_STRIP_Y_MAX = 195;
+
     public UfoGamePlayBody(UfoGamePlayView ufoGamePlayView) {
         this.propertiesService = new PropertiesService();
         this.ufoGamePlayView = ufoGamePlayView;
@@ -193,7 +198,9 @@ public class UfoGamePlayBody extends JPanel implements KeyListener {
 
     private void drawLandingStrip(Graphics g) {
         if (scaledLandingStripImage != null) {
-            g.drawImage(scaledLandingStripImage, 630, 170, this);
+            int width = LANDING_STRIP_X_MAX - LANDING_STRIP_X_MIN;
+            int height = LANDING_STRIP_Y_MAX - LANDING_STRIP_Y_MIN;
+            g.drawImage(scaledLandingStripImage, LANDING_STRIP_X_MIN, LANDING_STRIP_Y_MIN, width, height, this);
         }
     }
 

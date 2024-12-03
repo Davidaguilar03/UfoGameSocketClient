@@ -137,7 +137,6 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         }.getType();
         List<String> usersList = gson.fromJson(serverMessage, listType);
         this.usersList = usersList;
-        System.out.println(usersList);
     }
 
     public void updateUfoCount(String serverMessage) {
@@ -203,6 +202,9 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     }
 
     public void stopServerListener() {
+        if (serverListener != null) {
+            serverListener.stop();
+        }
         running = false;
         try {
             if (in != null) {
