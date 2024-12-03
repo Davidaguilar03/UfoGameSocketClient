@@ -32,6 +32,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     private List<String> usersList;
     private static Gson gson = new Gson();
     private volatile boolean running = true;
+    private ServerListener serverListener;
 
     public UfoSocketClient() {
         ufos = new ArrayList<>();
@@ -44,7 +45,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         sendMessage("CONNECT " + username);
-        new Thread(new ServerListener()).start();
+        startServerListener();
         presenter.updatePlayersList();
     }
 
@@ -52,7 +53,7 @@ public class UfoSocketClient implements UfoGameInterface.Model {
     public void stopConnection() throws IOException {
         running = false;
         sendMessage("DISCONNECT " + username);
-        in.close();
+        stopServerListener();
         out.close();
         clientSocket.close();
     }
@@ -196,28 +197,19 @@ public class UfoSocketClient implements UfoGameInterface.Model {
         presenter.setClientMode();
     }
 
-    private class ServerListener implements Runnable {
-        private ClientMethodMap methodMap;
+    public void startServerListener() {
+        serverListener = new ServerListener(this, in, running);
+        new Thread(serverListener).start();
+    }
 
-        public ServerListener() {
-            this.methodMap = new ClientMethodMap(UfoSocketClient.this);
-        }
-
-        @Override
-        public void run() {
-            try {
-                String serverMessage;
-                while (running && (serverMessage = in.readLine()) != null) {
-                    String[] parts = serverMessage.split(" ", 2);
-                    String key = parts[0];
-                    String inputLine = parts.length > 1 ? parts[1] : "";
-                    methodMap.run(key, inputLine);
-                }
-            } catch (IOException e) {
-                if (running) {
-                    e.printStackTrace();
-                }
+    public void stopServerListener() {
+        running = false;
+        try {
+            if (in != null) {
+                in.close();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

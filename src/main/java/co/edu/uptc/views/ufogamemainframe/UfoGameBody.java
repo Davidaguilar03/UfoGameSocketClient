@@ -140,6 +140,7 @@ public class UfoGameBody extends JPanel {
         playBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveSettings();
+                saveUserList();
                 createUfoGamePlayView();
             }
         });
@@ -307,7 +308,6 @@ public class UfoGameBody extends JPanel {
         saveUfosAmount();
         saveUfosSpeed();
         saveSpawnRate();
-        saveUserList();
         showTrajectory = trayectoryCheckbox.isSelected();
     }
 
